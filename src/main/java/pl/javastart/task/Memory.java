@@ -1,8 +1,8 @@
 package pl.javastart.task;
 
-import pl.javastart.task.exceptions.IllegalParametersException;
-import pl.javastart.task.exceptions.IllegalTemperatureException;
-import pl.javastart.task.exceptions.TemperatureOverLimitException;
+import pl.javastart.task.exception.IllegalParametersException;
+import pl.javastart.task.exception.IllegalTemperatureException;
+import pl.javastart.task.exception.TemperatureOverLimitException;
 
 public class Memory extends Component implements Overclockable {
 
@@ -19,20 +19,38 @@ public class Memory extends Component implements Overclockable {
 
     public Memory(String modelName, String manufacturer, String serialNumber, int size, int frequency, double workingTemperature, double maxSafeTemperature) {
         super(modelName, manufacturer, serialNumber);
-        if (size <= 0 || frequency <= 0 || workingTemperature <= 0 || maxSafeTemperature <= 0) {
-            System.out.print("PAMIĘĆ RAM:");
-            throw new IllegalParametersException();
-        }
-        if (maxSafeTemperature < workingTemperature) {
-            System.out.print("PAMIĘĆ RAM:");
-            throw new IllegalTemperatureException();
-        }
+
+        validateSize(size);
+        validateFrequency(frequency);
+        validateTemperature(workingTemperature, maxSafeTemperature);
+
         this.size = size;
         this.baseFrequency = frequency;
         this.workingTemperature = workingTemperature;
         this.maxSafeTemperature = maxSafeTemperature;
         this.overClockedTemperature = workingTemperature;
         this.overClockedFrequency = frequency;
+    }
+
+    private void validateTemperature(double workingTemperature, double maxSafeTemperature) {
+        if (workingTemperature <= 0 || maxSafeTemperature <= 0) {
+            throw new IllegalParametersException("PAMIĘĆ RAM: ");
+        }
+        if (maxSafeTemperature < workingTemperature) {
+            throw new IllegalTemperatureException("PAMIĘĆ RAM: ");
+        }
+    }
+
+    private void validateSize(int size) {
+        if (size <= 0) {
+            throw new IllegalParametersException("PAMIĘĆ RAM: ");
+        }
+    }
+
+    private void validateFrequency(int frequency) {
+        if (frequency <= 0) {
+            throw new IllegalParametersException("PAMIĘĆ RAM: ");
+        }
     }
 
     @Override
@@ -45,7 +63,7 @@ public class Memory extends Component implements Overclockable {
     }
 
     @Override
-    void printInfo() {
+    public void printInfo() {
         System.out.println("Parametry pracy: \n" + toString());
     }
 

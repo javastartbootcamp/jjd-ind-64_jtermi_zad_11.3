@@ -1,8 +1,8 @@
 package pl.javastart.task;
 
-import pl.javastart.task.exceptions.IllegalParametersException;
-import pl.javastart.task.exceptions.IllegalTemperatureException;
-import pl.javastart.task.exceptions.TemperatureOverLimitException;
+import pl.javastart.task.exception.IllegalParametersException;
+import pl.javastart.task.exception.IllegalTemperatureException;
+import pl.javastart.task.exception.TemperatureOverLimitException;
 
 public class Processor extends Component implements Overclockable {
     private static final int TEMPERATURE_RISE = 10;
@@ -15,19 +15,29 @@ public class Processor extends Component implements Overclockable {
 
     public Processor(String modelName, String manufacturer, String serialNumber, int frequency, double workingTemperature, double maxSafeTemperature) {
         super(modelName, manufacturer, serialNumber);
-        if (frequency <= 0 || workingTemperature <= 0 || maxSafeTemperature <= 0) {
-            System.out.print("PROCESOR:");
-            throw new IllegalParametersException();
-        }
-        if (maxSafeTemperature < workingTemperature) {
-            System.out.print("PROCESOR:");
-            throw new IllegalTemperatureException();
-        }
+        validateFrequency(frequency);
+        validateTemperature(workingTemperature, maxSafeTemperature);
+
         this.baseFrequency = frequency;
         this.workingTemperature = workingTemperature;
         this.maxSafeTemperature = maxSafeTemperature;
         this.overClockedTemperature = workingTemperature;
         this.overClockedFrequency = frequency;
+    }
+
+    private void validateTemperature(double workingTemperature, double maxSafeTemperature) {
+        if (workingTemperature <= 0 || maxSafeTemperature <= 0) {
+            throw new IllegalParametersException("PROCESOR: ");
+        }
+        if (maxSafeTemperature < workingTemperature) {
+            throw new IllegalTemperatureException("PROCESOR: ");
+        }
+    }
+
+    private void validateFrequency(int frequency) {
+        if (frequency <= 0) {
+            throw new IllegalParametersException("PROCESOR: ");
+        }
     }
 
     @Override
@@ -40,7 +50,7 @@ public class Processor extends Component implements Overclockable {
     }
 
     @Override
-    void printInfo() {
+    public void printInfo() {
         System.out.println("Parametry pracy: \n" + toString());
     }
 

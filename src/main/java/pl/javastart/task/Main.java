@@ -1,5 +1,7 @@
 package pl.javastart.task;
 
+import pl.javastart.task.exception.ComputerException;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -11,20 +13,17 @@ public class Main {
 
             Computer computer = new Computer(processor, memory, hardDrive);
 
-            computer.processor.overclock();
-            computer.processor.printInfo();
-            computer.processor.overclock();
-            computer.processor.printInfo();
-            computer.processor.overclock();
-            computer.processor.printInfo();
-            computer.hardDrive.printInfo();
+            computer.overclockProcessor();
+            computer.printInfo();
+            computer.overclockProcessor();
+            computer.printInfo();
+            computer.overclockProcessor();
+            computer.printInfo();
+            computer.overclockProcessor();
+            computer.overclockMemory();
+            computer.overclockMemory();
 
-            computer.memory.overclock();
-            computer.memory.printInfo();
-            computer.memory.overclock();
-            computer.memory.printInfo();
-
-        } catch (Exception e) {
+        } catch (ComputerException e) {
             System.err.println("\n" + e.getMessage());
         }
     }

@@ -1,6 +1,6 @@
 package pl.javastart.task;
 
-import pl.javastart.task.exceptions.IllegalParametersException;
+import pl.javastart.task.exception.IllegalParametersException;
 
 public class HardDrive extends Component {
 
@@ -8,16 +8,14 @@ public class HardDrive extends Component {
 
     public HardDrive(String modelName, String manufacturer, String serialNumber, int volume) {
         super(modelName, manufacturer, serialNumber);
-
         if (volume <= 0) {
-            System.out.print("DYSK TWARDY");
-            throw new IllegalParametersException();
+            throw new IllegalParametersException("DYSK TWARDY: ");
         }
         this.volume = volume;
     }
 
     @Override
-    void printInfo() {
+    public void printInfo() {
         System.out.println(toString());
     }
 

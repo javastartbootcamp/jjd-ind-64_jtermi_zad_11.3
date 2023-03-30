@@ -1,12 +1,12 @@
 package pl.javastart.task;
 
-import pl.javastart.task.exceptions.IllegalManufacturerDetailsExcerption;
+import pl.javastart.task.exception.IllegalManufacturerDetailsExcerption;
 
 public abstract class Component {
 
-    String modelName;
-    String manufacturer;
-    String serialNumber;
+    protected String modelName;
+    protected String manufacturer;
+    protected String serialNumber;
 
     public Component(String modelName, String manufacturer, String serialNumber) {
 
@@ -19,5 +19,6 @@ public abstract class Component {
         this.serialNumber = serialNumber;
     }
 
-    abstract void printInfo();
+    public void printInfo() {
+    }
 }
